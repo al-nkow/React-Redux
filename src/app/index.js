@@ -1,70 +1,12 @@
 import {render} from "react-dom";
 import React from "react";
-import {createStore, combineReducers, applyMiddleware} from "redux";
-import logger from "redux-logger";
 import {Provider} from "react-redux";
 
-import {App} from "./components/App";
-
-const mathReducer = (state = {
-    result: 1,
-    lastValues: []
-} , action) => {
-    switch (action.type) {
-        case "ADD":
-            state = {
-                ...state,
-                result: state.result + action.payload,
-                lastValues: [...state.lastValues, action.payload]
-            };
-            break;
-        case "SUBTRACT":
-            state = {
-                ...state,
-                result: state.result - action.payload,
-                lastValues: [...state.lastValues, action.payload]
-            };
-            break;
-    }
-    return state;
-};
-
-const userReducer = (state = {
-    name: 'Viktor',
-    age: 33
-} , action) => {
-    switch (action.type) {
-        case "SET_NAME":
-            state = {
-                ...state,
-                name: action.payload
-            };
-            break;
-        case "SET_AGE":
-            state = {
-                ...state,
-                age: action.payload
-            };
-            break;
-    }
-    return state;
-};
-const myLogger = (store) => (next) => (action) => {
-    console.log("Action is ", action); // action здесь - это аргумент внутри store.dispatch (см. ниже)
-    next(action);
-};
-const store = createStore(
-    combineReducers({mathReducer, userReducer}),
-    {},
-    applyMiddleware(logger()) // applyMiddleware(myLogger, logger()),
-);
-
-store.subscribe(() => {
-    // console.log( 'Store updated!', store.getState() );
-});
+import App from "./containers/App"; // Здесь App без {} так как мы используем export default
+import store from "./store.js";
 
 render(
-    <Provider store="store" >
+    <Provider store={store}  >
         <App />
     </Provider>,
     window.document.getElementById('app'));
