@@ -3,7 +3,13 @@ const userReducer = (state = {
     age: 33
 } , action) => {
     switch (action.type) {
-        case "SET_NAME":
+        // case "SET_NAME":
+        //     state = {
+        //         ...state,
+        //         name: action.payload
+        //     };
+        //     break;
+        case "SET_NAME_FULFILLED": // если используем промисы - _FULFILLED добавляется автоматически (в actions SET_NAME)!!!
             state = {
                 ...state,
                 name: action.payload
